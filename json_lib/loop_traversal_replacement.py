@@ -34,3 +34,34 @@ for i in range(len(selected_indices)):
 
 with open('./fin_finetuning/fine_training.json', 'w') as f:
     json.dump(data, f, indent=4)
+
+
+#循环遍历替换指定键下的内容2.0
+import json
+import os
+
+# Read JSON file
+with open('./fin_finetuning/fin_trainingfile2.0.json', 'r') as f:
+    raw_data = json.load(f)
+
+with open('./fin_finetuning/fin_trainingfile.json', 'r') as f:
+    data = json.load(f)
+
+start_index = 0
+step = 1
+num_sequences = 25
+indices = [start_index + i * step for i in range(num_sequences)]
+
+raw_obj = []
+raw_obj = [raw_data[i] for i in indices]
+
+
+obj = []
+obj = [data[i] for i in indices]
+
+for i in range(len(indices)):
+    data[i]['instruction'] = raw_obj[i]['instruction']
+
+# Write the modified data back to the JSON file
+with open('./fin_finetuning/fin_trainingfile2.0.json', 'w') as f:
+    json.dump(data, f, indent=4)  # indent for pretty formatting
