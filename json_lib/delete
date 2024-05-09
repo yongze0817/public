@@ -1,0 +1,24 @@
+#删除指定键下的指定内容
+import json
+
+with open('./fin_finetuning/fine_training.json', 'r') as f:
+    data = json.load(f)
+
+# 要处理的键
+key_to_modify = "instruction"
+# 要删除的字符串
+string_to_remove = ", but at the same time, special attention should also be paid to whether these units have exceptions (i.e., which data are not specified by the unit)"
+
+# 遍历列表中的每个字典
+for item in data:
+    # 检查键是否存在
+    if key_to_modify in item:
+        # 获取键所对应的值
+        value = item[key_to_modify]
+        # 使用 replace() 方法删除字符串中的指定内容
+        modified_value = value.replace(string_to_remove, "")
+        # 更新字典中的值
+        item[key_to_modify] = modified_value
+
+with open('./fin_finetuning/fine_training.json', 'w') as f:
+    json.dump(data, f, indent=4)
