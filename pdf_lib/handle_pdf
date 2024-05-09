@@ -1,0 +1,50 @@
+import re
+from PyPDF2 import PdfReader
+import tiktoken
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+token_max_length = 30000
+
+def handle_pdf(filepath: str = ''):
+    reader = PdfReader(filepath)
+    content = ''
+    # 遍历 PDF 文件中的每一页
+    for page in reader.pages:
+        text = page.extract_text()
+        # filtered_text = re.sub(r'^\s*Page \d+\s*$', '',
+        #                        text, flags=re.MULTILINE)  # 过滤页码
+        # filtered_text = re.sub(r'^\s*.*\d+\s*$', '',
+        #                        filtered_text, flags=re.MULTILINE)  # 过滤页眉和页脚
+        # content += filtered_text + "\n"
+        content += text
+    while num_tokens_from_string(content) > token_max_length:
+        content = content[:-100]
+   
+    def write_to_pdf(text, filename):
+            c = canvas.Canvas(filename, pagesize=letter)
+            width, height = letter
+            lines = text.split('\n')
+            x = 50
+            y = height - 50
+            for line in lines:
+                if y < 50:  # 如果已经到达页面底部，则添加新的页面
+                    c.showPage()
+                    y = height - 50
+                c.drawString(x, y, line)
+                y -= 14  # 每行的高度大约为14点 
+
+            c.save()
+    
+    write_to_pdf(content, output_path)
+
+def num_tokens_from_string(string: str) -> int:
+    encoding = tiktoken.encoding_for_model("gpt-4-32k")
+    num_tokens = len(encoding.encode(string))
+    return num_tokens
+
+if __name__ == '__main__':
+    filepath = 'C:/Users/yuanma/Desktop/beke_2023Q4.pdf'
+    output_path = 'C:/Users/yuanma/Desktop/output.pdf'
+    handle_pdf(filepath)
+    print('Done!')
