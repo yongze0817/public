@@ -162,3 +162,42 @@ for obj in data_list:
 data_list.extend(new_objects)
 with open('./fin_finetuning/fin_trainingfile3.0.json', 'w') as f:
     json.dump(data_list, f, indent=4)
+
+
+#对列表对象下具体的键值排列组合输出6.0
+import json
+import random
+from itertools import combinations
+
+# 给定的JSON
+with open('./fin_finetuning/fin_trainingfile2.0.json', 'r') as f:
+    data_list = json.load(f)
+
+new_objects = []
+threshold = 40
+
+# 找到长度为n/2的所有组合
+for obj in data_list:  
+    d = json.loads(obj["output"])
+    key_value_pairs = list(d.items())
+    n = len(key_value_pairs)
+    required_length = n // 2
+
+    count = 0
+    while count < threshold:
+        combination = random.sample(key_value_pairs, required_length) # 每个组合包含两个键值对
+        indicator = ', '.join([pair[0] for pair in combination])
+        json_str = json.dumps(dict(combination), indent=2)
+
+        existing_value = obj['instruction']
+        new_obj = { 
+                   "instruction": existing_value + f"The designated financial indicators are as follows:\n{indicator}\nWhen extracting specified data, please pay attention to the following points: \n1. Financial statement data in those tables, enclosed in parentheses, such numbers are negative, convert them into negative numbers. \n2. Pay attention to whether the report specifies the units of the data provided in the tables, such as thousands, millions, or billions, but at the same time, special attention should also be paid to whether these units have exceptions (i.e., which data are not specified by the unit).\n3. Do not confuse similar indicators. Do not fabricate data.",
+                   "input": obj["input"],  # 使用原数据中的 "input" 键值
+                   "output": json_str}
+        new_objects.append(new_obj)
+        count += 1
+
+
+data_list.extend(new_objects)
+with open('./fin_finetuning/fin_trainingfile4.0.json', 'w') as f:
+    json.dump(data_list, f, indent=4)
