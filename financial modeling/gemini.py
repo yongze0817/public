@@ -15,7 +15,7 @@ import os
 from pysondb import getDb
 import openai
 
-genai.configure(api_key="AIzaSyAevvXSJeftBpcNFEeMjZ3O6J6FCTG4L_A")
+genai.configure(api_key="")
 
 # Set up the model
 generation_config = {
