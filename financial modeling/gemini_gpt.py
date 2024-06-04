@@ -26,7 +26,7 @@ import pandas as pd
 import json
 
 
-genai.configure(api_key="AIzaSyAevvXSJeftBpcNFEeMjZ3O6J6FCTG4L_A")
+genai.configure(api_key="")
 
 # Set up the model
 generation_config = {
@@ -113,14 +113,14 @@ class FinancialAssistant:
       self.struct_model_data(response.text)
 
 
-  os.environ["AZURE_OPENAI_ENDPOINT"] = "https://scc-01-eeatus-gpt-group01-model01.openai.azure.com/"
-  os.environ["AZURE_OPENAI_API_KEY"] = "a5552ab2d19f422fa2035b0823a6e3c4"
+  os.environ["AZURE_OPENAI_ENDPOINT"] = ""
+  os.environ["AZURE_OPENAI_API_KEY"] = ""
 
   def _client(self):
-        AZURE_OPENAI_API_KEY = 'a5552ab2d19f422fa2035b0823a6e3c4'
-        AZURE_OPENAI_ENDPOINT = 'https://scc-01-eeatus-gpt-group01-model01.openai.azure.com/'
-        API_VERSION = '2024-03-01-preview'
-        AZURE_DEPLOYMENT = 'gpt4-0125-Preview'
+        AZURE_OPENAI_API_KEY = ''
+        AZURE_OPENAI_ENDPOINT = ''
+        API_VERSION = ''
+        AZURE_DEPLOYMENT = ''
         client = instructor.patch(AzureOpenAI(
             api_key=AZURE_OPENAI_API_KEY, api_version=API_VERSION, azure_deployment=AZURE_DEPLOYMENT))
         return client
