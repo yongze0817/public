@@ -125,10 +125,10 @@ for product in products:
 
 # 将字典转换为DataFrame
 product_to_links_df = pd.DataFrame([(product, *links) for product, links in product_to_links.items()], 
-                                   columns=["产品名","链接1", "链接2", "链接3", "链接4", "链接5","链接1", "链接2", "链接3", "链接4", "链接5","链接1", "链接2", "链接3", "链接4", "链接5","链接1", "链接2", "链接3", "链接4", "链接5"])
+                                   columns=["产品名","链接1", "链接2", "链接3", "链接4", "链接5"])
 
 # 使用melt函数将链接列重塑为行
-product_to_links_df = product_to_links_df.melt(id_vars=['产品名'], value_vars=["链接1", "链接2", "链接3", "链接4", "链接5","链接1", "链接2", "链接3", "链接4", "链接5","链接1", "链接2", "链接3", "链接4", "链接5","链接1", "链接2", "链接3", "链接4", "链接5"], 
+product_to_links_df = product_to_links_df.melt(id_vars=['产品名'], value_vars=["链接1", "链接2", "链接3", "链接4", "链接5"], 
                                                var_name="链接序号", value_name="链接")
 
 # 将产品名列设置为索引项
