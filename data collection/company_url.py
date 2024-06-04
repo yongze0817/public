@@ -17,7 +17,7 @@ from pathlib import Path
 import hashlib
 import google.generativeai as genai
 
-genai.configure(api_key="AIzaSyAevvXSJeftBpcNFEeMjZ3O6J6FCTG4L_A")
+genai.configure(api_key="")
 
 
 # Set up the model
@@ -51,12 +51,8 @@ api_key = 'AIzaSyAXIKhd5YJq6r3gISw-3vQf3-6uxZ-ZjYM'
 cse_id = 'e32c3228e733547dc'
 
 
-products = [
-    "ACE Studio", "AI SPEECH", "AIXcoder", "AI Design", "AI PPT .cn", "AI帮个忙", "AI改图", "AI乌托邦", "BimoAI", 
-    "CODEFUSE", "Chatmind", "CodeGeeX", "Copilot", "Cubox", "D.DESIGN", "DECA", "Dreamina", "Effidit", "FRIDAY", 
-    "Fittern", "FlowUs", "GitHub Copilot", "GitMind", "MasterGo", "My AI", "PIC Copilot", "PixWeaver", "Pixso", 
-    "ProcessOn", "SKY", "TME Studio", "VERSE", "WriteWise", "alibaba WOOD", "chatppt", "iSlide"
-]
+products = []
+    
 def google_search(query, api_key, cse_id, num=1):
     try:
         url = f"https://www.googleapis.com/customsearch/v1?q={query}&key={api_key}&cx={cse_id}&num={num}"
@@ -111,10 +107,10 @@ product_to_links = {}
 for product in products:
     query = f"{product}"
     try:
-        results = google_search(f"{product}", api_key, cse_id, num=10)
-        results += google_search(f"AI工具集{product}", api_key, cse_id, num=10)
+        results = google_search(f"{product}", api_key, cse_id, num=5)
+        results += google_search(f"AI工具集{product}", api_key, cse_id, num=5)
         if results:
-            links = [result['link'] for result in results[:20]]
+            links = [result['link'] for result in results[:5]]
             product_to_links[product] = links
         else:
             product_to_links[product] = ["未找到"]
