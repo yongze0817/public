@@ -2,3 +2,13 @@ log_GDP_HK = log(GDP_HK);
 log_Export_HK = log(Export_HK);
 log_GDP_US = log(GDP_US);
 log_Export_US = log(Export_US);
+
+[cyc_log_GDP_HK, ~] = hpfilter(log_GDP_HK, 1600);
+[cyc_log_Export_HK, ~] = hpfilter(log_Export_HK, 1600);
+[cyc_log_GDP_US, ~] = hpfilter(log_GDP_US, 1600);
+[cyc_log_Export_US, ~] = hpfilter(log_Export_US, 1600);
+
+corr_HK = corr(cyc_log_GDP_HK, cyc_log_Export_HK);
+corr_US = corr(cyc_log_GDP_US, cyc_log_Export_US);
+
+corr_HK_US = corr(cyc_log_GDP_HK, cyc_log_GDP_US);
