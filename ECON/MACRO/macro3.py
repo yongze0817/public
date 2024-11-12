@@ -60,14 +60,14 @@ data['cycle_log_GDP_US'] = cycle_log_GDP_US
 data['cycle_log_Export_US'] = cycle_log_Export_US
 
 # Correlation for Hong Kong
-corr_HK = data[['cycle_log_GDP_HK', 'cycle_log_Export_HK']].corr().iloc[0, 1]
+corr_HK = data[['trend_log_GDP_HK', 'trend_log_Export_HK']].corr().iloc[0, 1]
 print(f"Correlation between HP-filtered log GDP and log Export for Hong Kong: {corr_HK}")
 
 # Correlation for the U.S.
-corr_US = data[['cycle_log_GDP_US', 'cycle_log_Export_US']].corr().iloc[0, 1]
+corr_US = data[['trend_log_GDP_US', 'trend_log_Export_US']].corr().iloc[0, 1]
 print(f"Correlation between HP-filtered log GDP and log Export for the U.S.: {corr_US}")
 
 # Correlation between HP-filtered log GDP of Hong Kong and the U.S.
-corr_GDP_HK_US = data[['cycle_log_GDP_HK', 'cycle_log_GDP_US']].corr().iloc[0, 1]
+corr_GDP_HK_US = data[['trend_log_GDP_HK', 'trend_log_GDP_US']].corr().iloc[0, 1]
 print(f"Correlation between HP-filtered log GDP in Hong Kong and U.S.: {corr_GDP_HK_US}")
 
