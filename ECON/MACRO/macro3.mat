@@ -1,0 +1,4 @@
+log_GDP_HK = log(GDP_HK);
+log_Export_HK = log(Export_HK);
+log_GDP_US = log(GDP_US);
+log_Export_US = log(Export_US);
