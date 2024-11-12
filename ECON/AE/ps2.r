@@ -6,10 +6,10 @@ library(grf)
 data <- read_excel("Your_own_directory/Forest.xlsx")
 
 Y <- as.matrix(data$outcome)        # Outcome variable
-W <- as.matrix(data$treatment)      # Treatment variable
-X <- as.matrix(data[, paste0("X", 1:10)])  # Control variables X1 to X10
+D <- as.matrix(data$treatment)      # Treatment variable
+W <- as.matrix(data[, paste0("W", 1:10)])  # Control variables X1 to X10
 
-causal_forest_model <- causal_forest(X, Y, W, num.trees = 4000)
+causal_forest_model <- causal_forest(W, Y, D, num.trees = 4000)
 
 # Estimate CATE with confidence intervals
 cate_predictions <- predict(causal_forest_model, estimate.variance = TRUE)
