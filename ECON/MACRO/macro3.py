@@ -34,9 +34,6 @@ data = gdp_hk.join([export_hk, gdp_us, export_us], how='inner')
 # Rename columns for clarity
 data.columns = ['GDP_HK', 'Export_HK', 'GDP_US', 'Export_US']
 
-# Ensure data is in quarterly frequency
-data = data.asfreq('Q')
-
 # Save to CSV with descriptive filename
 data.to_csv('gdp_export_hk_us_quarterly.csv')
 print("\nData cleaned, aligned to the latest start date, and saved as 'gdp_export_hk_us_quarterly.csv'")
