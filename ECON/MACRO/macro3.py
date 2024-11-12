@@ -5,6 +5,42 @@ import numpy as np
 from statsmodels.tsa.filters.hp_filter import hpfilter
 
 # Load the data
+# Load datasets
+gdp_hk = pd.read_csv('gdp_hk_quarterly.csv', parse_dates=['Date'], index_col='Date')
+export_hk = pd.read_csv('export_hk_quarterly.csv', parse_dates=['Date'], index_col='Date')
+gdp_us = pd.read_csv('gdp_us_quarterly.csv', parse_dates=['Date'], index_col='Date')
+export_us = pd.read_csv('export_us_quarterly.csv', parse_dates=['Date'], index_col='Date')
+
+# Check start dates
+print("Start dates of individual datasets:")
+print("Hong Kong GDP start date:", gdp_hk.index.min())
+print("Hong Kong Export start date:", export_hk.index.min())
+print("U.S. GDP start date:", gdp_us.index.min())
+print("U.S. Export start date:", export_us.index.min())
+
+# Determine the latest start date to align all data
+latest_start_date = max(gdp_hk.index.min(), export_hk.index.min(), gdp_us.index.min(), export_us.index.min())
+print("\nAligning data to start from:", latest_start_date)
+
+# Trim each dataset to start from the latest start date
+gdp_hk = gdp_hk[gdp_hk.index >= latest_start_date]
+export_hk = export_hk[export_hk.index >= latest_start_date]
+gdp_us = gdp_us[gdp_us.index >= latest_start_date]
+export_us = export_us[export_us.index >= latest_start_date]
+
+# Merge datasets on the 'Date' index
+data = gdp_hk.join([export_hk, gdp_us, export_us], how='inner')
+
+# Rename columns for clarity
+data.columns = ['GDP_HK', 'Export_HK', 'GDP_US', 'Export_US']
+
+# Ensure data is in quarterly frequency
+data = data.asfreq('Q')
+
+# Save to CSV with descriptive filename
+data.to_csv('gdp_export_hk_us_quarterly.csv')
+print("\nData cleaned, aligned to the latest start date, and saved as 'gdp_export_hk_us_quarterly.csv'")
+
 # Assuming your CSV file has columns 'Date', 'GDP_HK', 'Export_HK', 'GDP_US', 'Export_US'
 data = pd.read_csv('path_to_your_data_file.csv', parse_dates=['Date'], index_col='Date')
 
