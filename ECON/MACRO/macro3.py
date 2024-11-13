@@ -1,15 +1,14 @@
-!pip install pandas statsmodels
-
 import pandas as pd
 import numpy as np
 from statsmodels.tsa.filters.hp_filter import hpfilter
+import matplotlib.pyplot as plt
 
 # Load the data
 # Load datasets
-gdp_hk = pd.read_csv('gdp_hk_quarterly.csv', parse_dates=['Date'], index_col='Date')
-export_hk = pd.read_csv('export_hk_quarterly.csv', parse_dates=['Date'], index_col='Date')
-gdp_us = pd.read_csv('gdp_us_quarterly.csv', parse_dates=['Date'], index_col='Date')
-export_us = pd.read_csv('export_us_quarterly.csv', parse_dates=['Date'], index_col='Date')
+gdp_hk = pd.read_csv('HK GDP.csv', parse_dates=['Date'], index_col='Date')
+export_hk = pd.read_csv('HK EXPORTS.csv', parse_dates=['Date'], index_col='Date')
+gdp_us = pd.read_csv('US GDP.csv', parse_dates=['Date'], index_col='Date')
+export_us = pd.read_csv('US EXPORTS.csv', parse_dates=['Date'], index_col='Date')
 
 # Check start dates
 print("Start dates of individual datasets:")
@@ -39,7 +38,7 @@ data.to_csv('gdp_export_hk_us_quarterly.csv')
 print("\nData cleaned, aligned to the latest start date, and saved as 'gdp_export_hk_us_quarterly.csv'")
 
 # Assuming your CSV file has columns 'Date', 'GDP_HK', 'Export_HK', 'GDP_US', 'Export_US'
-data = pd.read_csv('path_to_your_data_file.csv', parse_dates=['Date'], index_col='Date')
+data = pd.read_csv('gdp_export_hk_us_quarterly.csv', parse_dates=['Date'], index_col='Date')
 
 # Take logs of GDP and export data for both Hong Kong and the U.S.
 data['log_GDP_HK'] = np.log(data['GDP_HK'])
@@ -59,15 +58,40 @@ data['cycle_log_Export_HK'] = cycle_log_Export_HK
 data['cycle_log_GDP_US'] = cycle_log_GDP_US
 data['cycle_log_Export_US'] = cycle_log_Export_US
 
+plt.figure()
+plt.plot(data.index, data['cycle_log_GDP_HK'], label='GDP')
+plt.plot(data.index, data['cycle_log_Export_HK'], label='Export')
+plt.title("HK HP flitered log real Data")
+plt.xlabel('Date')
+plt.legend()
+plt.show()
+
+plt.plot(data.index, data['cycle_log_GDP_US'], label='GDP')
+plt.plot(data.index, data['cycle_log_Export_US'], label='Export')
+plt.title("US HP flitered log real Data")
+plt.xlabel('Date')
+plt.legend()
+plt.show()
+
+plt.plot(data.index, data['cycle_log_GDP_HK'], label='HK')
+plt.plot(data.index, data['cycle_log_GDP_US'], label='US')
+plt.title('HK & US HP flitered log real GDP')
+plt.xlabel('Date')
+plt.legend()
+plt.show()
+
 # Correlation for Hong Kong
-corr_HK = data[['trend_log_GDP_HK', 'trend_log_Export_HK']].corr().iloc[0, 1]
-print(f"Correlation between HP-filtered log GDP and log Export for Hong Kong: {corr_HK}")
+corr_HK = data[['cycle_log_GDP_HK', 'cycle_log_Export_HK']].corr()
+print("Correlation between HP-filtered log GDP and log Export for Hong Kong:") 
+print(corr_HK)
 
 # Correlation for the U.S.
-corr_US = data[['trend_log_GDP_US', 'trend_log_Export_US']].corr().iloc[0, 1]
-print(f"Correlation between HP-filtered log GDP and log Export for the U.S.: {corr_US}")
+corr_US = data[['cycle_log_GDP_US', 'cycle_log_Export_US']].corr()
+print("Correlation between HP-filtered log GDP and log Export for the U.S.:")
+print(corr_US)
 
 # Correlation between HP-filtered log GDP of Hong Kong and the U.S.
-corr_GDP_HK_US = data[['trend_log_GDP_HK', 'trend_log_GDP_US']].corr().iloc[0, 1]
-print(f"Correlation between HP-filtered log GDP in Hong Kong and U.S.: {corr_GDP_HK_US}")
+corr_GDP_HK_US = data[['cycle_log_GDP_HK', 'cycle_log_GDP_US']].corr() 
+print("Correlation between HP-filtered log GDP in Hong Kong and U.S.:") 
+print(corr_GDP_HK_US)
 
