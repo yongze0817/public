@@ -47,8 +47,8 @@ safety_settings = [
   },
 ]
 
-api_key = 'AIzaSyAXIKhd5YJq6r3gISw-3vQf3-6uxZ-ZjYM'
-cse_id = 'e32c3228e733547dc'
+api_key = ''
+cse_id = ''
 
 
 products = []
