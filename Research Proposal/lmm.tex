@@ -1,0 +1,258 @@
+\documentclass[12pt, oneside]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[a4paper, margin=1in]{geometry}
+% \usepackage[a4paper, top=2.54cm, bottom=2.54cm, left=3.17cm, right=3.17cm]{geometry}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{fancyhdr}
+% 设置页眉页脚
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\usepackage{amsmath}
+\numberwithin{equation}{section}
+
+\title{Economic model for LMM}
+
+\begin{document}
+
+\maketitle
+
+\section{Setting}
+\begin{itemize}
+    \item 
+\end{itemize}
+
+
+\section{LMM simulated market states}
+
+\section{HFT Strategies}
+
+\subsection{Market Making: Avellaneda-Stoikov Model (2008)}
+
+This model is one of the most classic theoretical models in market-making strategies, aiming to optimize the quote strategy and inventory management of market makers to maximize their utility function.
+
+\subsubsection{Utility Function}
+
+It is assumed that the wealth of the market maker consists of two parts: one part comes from the bid-ask spread, and the other part comes from the profit of inventory changes. The goal is to maximize the utility function (usually represented by a logarithmic utility function), that is, to maximize the long-term wealth while maintaining sufficient liquidity.
+
+Objective: Maximize the expected utility of wealth
+\[
+\max_{\delta^b, \delta^a} \mathbb{E} \left[ -e^{-\gamma (X_T + q_T S_T)} \right]
+\]
+Where:
+\begin{itemize}
+    \item \(X_T\): The final wealth of the cash account
+    \item \(q_T\): The final inventory of the market maker
+    \item \(S_T\): Market price
+    \item \(\gamma\): Risk aversion coefficient (reflecting the market maker's risk preference)
+\end{itemize}
+
+\subsubsection{Order Book Price Model}
+
+The market maker needs to simultaneously post bid quotes (\(\delta^b\)) and ask quotes (\(\delta^a\)) in the order book and adjust the quotes to meet market demand. The spread between the bid and ask quotes is the source of the market maker's profit.
+
+It is assumed that the price changes of the market follow some Poisson process or other stochastic process, and the market maker captures price fluctuations by providing quotes.
+
+Price Dynamics:
+\[
+dS_t = \mu dt + \sigma dW_t
+\]
+Where:
+\begin{itemize}
+    \item \(S_t\): Market price
+    \item \(\mu\): The expected return of the market
+    \item \(\sigma\): Market price volatility
+    \item \(dW_t\): Standard Brownian motion
+\end{itemize}
+
+\subsubsection{Pricing Strategy}
+
+According to the market price and inventory, the market maker needs to dynamically adjust the quotes to maintain profits. The Avellaneda-Stoikov model provides the analytical solution of the optimal quote strategy.
+
+Optimal quote strategy:
+The optimal solutions of the ask quote (\(\delta^a\)) and the bid quote (\(\delta^b\)):
+\[
+\delta^{a*} = \frac{1}{\gamma} \ln\left(1 + \frac{\gamma}{k}\right) - \frac{\gamma \sigma^2 T}{2} q
+\]
+\[
+\delta^{b*} = \frac{1}{\gamma} \ln\left(1 + \frac{\gamma}{k}\right) + \frac{\gamma \sigma^2 T}{2} q
+\]
+Where:
+\begin{itemize}
+    \item \(q\): Current inventory
+    \item \(T\): Time to option expiration
+    \item \(k\): Market depth
+    \item \(\sigma^2\): Market price volatility
+\end{itemize}
+
+These optimal quote strategies take into account inventory risk (\(q\)) and market volatility (\(\sigma\)), and by adjusting the quotes, the market maker can balance the risk of inventory management and price fluctuations.
+
+
+\subsection{Arbitrage Strategies}
+
+\subsection{Event-Driven Strategies}
+
+\subsection{Momentum Trading}
+
+
+The Momentum Strategy is an investment strategy based on the assumption of ``trend continuation.'' The core idea is that assets that have performed well in the past will continue to perform well in the future, while those that have performed poorly will continue to decline.
+
+\subsubsection{Return Calculation}
+
+The foundation of the Momentum Strategy is the historical returns of assets. The momentum of an asset is usually obtained by calculating the difference between short-term and long-term returns. These returns are typically derived by calculating returns on price sequences.
+
+
+Assume there is a price sequence \( P_t \) of an asset, where \( t \) represents time. The single-period return of the asset can be expressed as:
+\[
+R_t = \frac{P_t}{P_{t-1}} - 1
+\]
+Where:
+\begin{itemize}
+    \item \( R_t \): Return at time \( t \)
+    \item \( P_t \): Asset price at time \( t \)
+    \item \( P_{t-1} \): Asset price at time \( t-1 \)
+\end{itemize}
+
+For long-term momentum strategies, the cumulative return over a fixed time window is usually calculated, such as the return over the past 6 months or 12 months:
+\[
+R_{\text{window}} = \frac{P_T}{P_{T - N}} - 1
+\]
+Where:
+\begin{itemize}
+    \item \( R_{\text{window}} \): Cumulative return over the window period
+    \item \( N \): Window period length (e.g., 6 months or 12 months)
+    \item \( P_T \): Price at the end of the window
+    \item \( P_{T-N} \): Price at the start of the window
+\end{itemize}
+
+\subsection*{II. Momentum Signal Generation}
+
+The core of the Momentum Strategy is to generate a momentum signal (momentum signal) based on the historical performance of assets and to decide whether to buy or sell based on this signal.
+
+\subsubsection*{1. Relative Strength Index (RSI)}
+
+RSI is a commonly used technical indicator in momentum strategies, used to measure the overbought or oversold condition of an asset. The RSI calculation formula is as follows:
+\[
+RSI_t = 100 - \frac{100}{1 + RS_t}
+\]
+Where \( RS_t \) is the relative strength ratio, representing the ratio of the average gain to the average loss over a certain period:
+\[
+RS_t = \frac{\text{Average Gain}}{\text{Average Loss}}
+\]
+RSI is typically used to determine whether the market is overbought or oversold, with values below 30 indicating oversold and above 70 indicating overbought. In momentum strategies, trading signals can be generated by setting thresholds.
+
+\subsubsection*{2. Momentum Factor}
+
+The momentum factor is another common method for signal generation, representing the performance of an asset over a past period. The momentum factor is often calculated as follows:
+\[
+\text{Momentum Factor}_t = \frac{P_t - P_{t-k}}{P_{t-k}}
+\]
+Where:
+\begin{itemize}
+    \item \( P_t \): Current asset price
+    \item \( P_{t-k} \): Asset price \( k \) days (or months) ago
+\end{itemize}
+Positive momentum indicates a past price increase, while negative momentum indicates a past price decrease.
+When the momentum factor is positive, consider buying the asset; when it is negative, consider short selling or selling the asset.
+
+\subsection*{III. Trend Detection}
+
+Trend detection is one of the key parts of the momentum strategy. Momentum strategies typically use statistical methods to detect the existence and strength of trends, with common tools including moving averages (MA) and exponentially weighted moving averages (EWMA).
+
+\subsubsection*{1. Simple Moving Average (SMA)}
+
+The simple moving average (SMA) smooths price data by taking the average price over a certain time window to identify long-term price trends. The SMA calculation formula is:
+\[
+SMA_t = \frac{1}{N} \sum_{i=t-N+1}^{t} P_i
+\]
+Where:
+\begin{itemize}
+    \item \( N \): Window period length (e.g., 20 days or 50 days)
+    \item \( P_i \): Historical price sequence
+\end{itemize}
+When the price is above its SMA, it is generally considered that the market is in an upward trend, and vice versa.
+
+\subsubsection*{2. Exponentially Weighted Moving Average (EWMA)}
+
+Unlike SMA, the exponentially weighted moving average (EWMA) assigns higher weights to more recent prices, making it more sensitive to short-term trends. The EWMA calculation formula is:
+\[
+EWMA_t = \lambda P_t + (1 - \lambda) EWMA_{t-1}
+\]
+Where:
+\begin{itemize}
+    \item \( \lambda \): Smoothing factor (usually between 0 and 1)
+    \item \( P_t \): Current price
+    \item \( EWMA_{t-1} \): Exponentially weighted moving average at the previous moment
+\end{itemize}
+EWMA is typically used to more sensitively capture short-term trend changes.
+
+\subsection*{IV. Backtesting and Signal Generation of Momentum Strategies}
+
+Backtesting of momentum strategies involves validating the effectiveness of the strategy through historical data. By backtesting historical returns of price sequences, buy and sell signals can be generated.
+
+\subsubsection*{1. Signal Generation}
+
+Signal generation is usually achieved by comparing the historical returns of assets with predetermined thresholds. For example, set a threshold value, and if the return over the past 6 months exceeds this threshold, a buy signal is generated; otherwise, a sell signal is generated.
+Assume \( R_{\text{6-month}} \) is the cumulative return over the past 6 months, and the threshold is \( T \):
+\[
+\text{Buy Signal} = \text{if } R_{\text{6-month}} > T
+\]
+\[
+\text{Sell Signal} = \text{if } R_{\text{6-month}} < -T
+\]
+
+\subsubsection*{2. Execution of Momentum Strategy}
+
+After generating trading signals, the strategy execution can be achieved by buying or selling assets. The basic mathematical model for executing the strategy is:
+\[
+\Delta w_t = \text{Sign}(R_{\text{window}}) \cdot w_{\text{max}}
+\]
+Where:
+\begin{itemize}
+    \item \( w_t \): Position weight of the asset
+    \item \( \Delta w_t \): Change in position
+    \item \( w_{\text{max}} \): Maximum position ratio
+    \item \( \text{Sign}(R_{\text{window}}) \): Generate buy or sell signals based on the sign of the return
+\end{itemize}
+If \( R_{\text{window}} \) is positive, buy; if negative, sell.
+
+\subsection*{V. Risk Control and Optimization}
+
+Although the momentum strategy is based on past trends, it requires a robust risk control mechanism. Common risk management methods include:
+
+\subsubsection*{1. Stop-Loss}
+
+Stop-loss is a mechanism to control potential losses by setting a loss threshold. For example, when the asset price falls below the set threshold, the asset is automatically sold.
+
+\subsubsection*{2. Volatility Adjustment}
+
+Adjust the position size based on market volatility. If the market is highly volatile, reduce the position size; if the market is less volatile, increase the position size.
+\[
+\Delta w_t = \frac{1}{\sigma_t} \cdot w_{\text{max}}
+\]
+Where:
+\begin{itemize}
+    \item \( \sigma_t \): Volatility at the current moment
+\end{itemize}
+
+
+
+\subsection{Execution Algorithms}
+
+\subsection{Order Book Dynamics}
+
+
+\end{document}
